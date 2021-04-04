@@ -4,13 +4,195 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>simpleGame</title>
+    <link rel="stylesheet" href="all.min.css">
+    <title>X-O GAME</title>
+    <style>
+        *{
+            margin: 0;
+            outline: none;
+        }
+        body{
+            overflow:hidden;
+            width: 100vw;
+            height: 100vh;
+            margin-top: 10px;
+            background-color: #ffac2f;
+        }
+        .container{
+            width: 400px;
+            height: 400px;
+            margin: 40px auto;
+            overflow:hidden;
+        }
+        .squares{
+            width: 120px;
+            height: 120px;
+            background-color: #fff;
+            margin: 5px;
+            float:left;
+            font-weight: 600;
+            font-family:sans-serif;
+            font-size: 100px;
+            text-transform: uppercase;
+            text-align: center;
+            cursor:pointer;
+        }
+        .squares:hover{
+            background-color: #d4d4d4;
+        }
+        .squares:active{
+            background-color: #4d4d4d;
+        }
+        h1{
+            color:rgb(1%, 1%, 10%) ;
+            text-align: center;
+            font-family: sans-serif;
+            margin: 5px;
+        }
+        h2{
+            color:#000 ;
+            margin: 5px 0;
+            border: 1px solid #000;
+            background-color: #b8b8b8;
+            text-align: center;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            font-size: 30px;
+        }
+        .hide{
+            display: none;
+        }
+        #restBut{
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            text-align: center;
+            top: 0;
+            background-color: rgb(2%, 100%, 2%);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 50px;
+            text-transform: capitalize;
+            animation: restB 2s ease;
+        }
+        #restBut:active{
+            background-color: red;
+            color: rgb(2%, 100%, 2%);
+        }
+        @keyframes restB{
+            0%{
+                top: -100%;
+            }
+            100%{
+                top: 0;
+            }
+        }
+        span{
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            left: 635px;
+            position: relative;
+            background-color: #000;
+            color: red;
+            padding: 3px;
+            border: 2px solid red;
+        }
+        .return{
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        #varText{
+            width: 100vw;
+            position: absolute;
+            z-index: 9;
+        }
+    </style>
 </head>
 <body>
-    <div class="background">
-        <div class="char" id="char"></div>
+    <h1>X-O GAME</h1>
+    <span id="howTurn">X TURN</span>
+    <h2 id="varText">play</h2>
+    <div class="container">
+        <div class="squares" id="A1" onclick="play(this.id)"></div>
+        <div class="squares" id="A2" onclick="play(this.id)"></div>
+        <div class="squares" id="A3" onclick="play(this.id)"></div>
+        <div class="squares" id="A4" onclick="play(this.id)"></div>
+        <div class="squares" id="A5" onclick="play(this.id)"></div>
+        <div class="squares" id="A6" onclick="play(this.id)"></div>
+        <div class="squares" id="A7" onclick="play(this.id)"></div>
+        <div class="squares" id="A8" onclick="play(this.id)"></div>
+        <div class="squares" id="A9" onclick="play(this.id)"></div>
     </div>
-    <script src="js/main.js"></script>
+    <button id="restBut" style="display: none;z-index: 8;">restart</button>
+    <button class="return" id="return" onclick="rest()"><i class="fas fa-undo-alt"></i></button>
+    <script src="all.min.js"></script>
+    <script>
+        let turn=true;
+        let squares=[];
+        let variableText= document.getElementById("varText");
+
+        function rest(){
+            location.reload();
+        }
+
+        function chackWinner(){
+            for(i=1;i<=9;i++){
+                squares[i]=document.getElementById('A'+i).innerHTML;
+            }
+            // -
+            if(squares[1]==squares[2] && squares[2]==squares[3] && squares[1]!=""){
+                variableText.innerHTML="player ("+squares[1]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }if(squares[4]==squares[5] && squares[5]==squares[6] && squares[4]!=""){
+                variableText.innerHTML="player ("+squares[4]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }if(squares[7]==squares[8] && squares[8]==squares[9] && squares[7]!=""){
+                variableText.innerHTML="player ("+squares[7]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }
+            //   |
+            if(squares[1]==squares[4] && squares[4]==squares[7] && squares[1]!=""){
+                variableText.innerHTML="player ("+squares[1]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }
+            if(squares[2]==squares[5] && squares[5]==squares[8] && squares[2]!=""){
+                variableText.innerHTML="player ("+squares[2]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }if(squares[3]==squares[6] && squares[6]==squares[9] && squares[3]!=""){
+                variableText.innerHTML="player ("+squares[3]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }if(squares[1]==squares[5] && squares[5]==squares[9] && squares[1]!=""){
+                variableText.innerHTML="player ("+squares[1]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }if(squares[3]==squares[5] && squares[5]==squares[7] && squares[3]!=""){
+                variableText.innerHTML="player ("+squares[3]+") is the winner",
+                document.getElementById('restBut').style.display="block",
+                document.getElementById('restBut').setAttribute('onclick','rest()')
+            }
+        }
+
+        function play(id){
+            let s = document.getElementById(id);
+            if (turn && s.innerHTML==""){
+                document.getElementById(id).innerHTML="x";
+                document.getElementById("howTurn").innerHTML="O TURN";
+                turn=!turn;
+            }else if (!turn && s.innerHTML==""){
+                document.getElementById(id).innerHTML="o";
+                document.getElementById("howTurn").innerHTML="X TURN";
+                turn=!turn;
+            }
+            chackWinner()
+        }
+    </script>
 </body>
 </html>
